@@ -29,6 +29,9 @@
 .core-defs-libnx:
   extends: .core-defs
 
+.core-defs-ctr:
+  extends: .core-defs
+
 # Inclusion templates, required for the build to work
 include:
   ################################## DESKTOPS ################################
@@ -53,6 +56,10 @@ include:
   # Libnx
   - project: 'libretro-infrastructure/ci-templates'
     file: '/libnx-static-cmake.yml' 
+
+  # CTR (3DS)
+  - project: 'libretro-infrastructure/ci-templates'
+    file: '/ctr-static-cmake.yml' 
 
 # Stages for building
 stages:
@@ -126,3 +133,9 @@ libretro-build-libnx:
   extends:
     - .libretro-libnx-static-cmake-retroarch-master
     - .core-defs-libnx
+
+# CTR (3ds)
+libretro-build-ctr:
+  extends:
+    - .libretro-ctr-static-cmake-retroarch-master
+    - .core-defs-ctr
