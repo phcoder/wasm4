@@ -31,7 +31,7 @@
     expire_in: 10 min
 
 .libretro-vita-static-cmake-retroarch-master:
-  extends: .libretro-vita-static
+  extends: .libretro-vita-static-cmake
   variables:
     STATIC_RETROARCH_BRANCH: master
     STATIC_RETROARCH_JOB_NAME: build-static-retroarch-vita
