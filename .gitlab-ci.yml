@@ -82,6 +82,13 @@ stages:
   - build-shared
   - build-static
 
+.libretro-osx-cmake-aarch64:
+  extends: .libretro-osx-cmake
+  variables:
+    MACOSX_DEPLOYMENT_TARGET: "10.9"
+    ARCH: aarch64
+    CMAKE: cmake
+
 ##############################################################################
 #################################### STAGES ##################################
 ##############################################################################
@@ -121,6 +128,12 @@ libretro-build-osx-x86:
 libretro-build-osx-x64:
   extends:
     - .libretro-osx-cmake-x86_64
+    - .core-defs-osx
+
+# MacOS ARM64
+libretro-build-osx-x64:
+  extends:
+    - .libretro-osx-cmake-aarch64
     - .core-defs-osx
 
 ################################### CELLULAR #################################
