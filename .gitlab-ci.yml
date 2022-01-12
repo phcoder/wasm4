@@ -131,7 +131,7 @@ libretro-build-osx-x64:
     - .core-defs-osx
 
 # MacOS ARM64
-libretro-build-osx-x64:
+libretro-build-osx-aarch64:
   extends:
     - .libretro-osx-cmake-aarch64
     - .core-defs-osx
