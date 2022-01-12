@@ -1,0 +1,37 @@
+.libretro-vita-static-cmake:
+  image: $CI_SERVER_HOST:5050/libretro-infrastructure/libretro-build-vita:latest
+  stage: build-static
+  variables:
+    BUILD_DIR: build/vita
+    CMAKE_SOURCE_ROOT: .
+  before_script:
+    - export NUMPROC=$(($(nproc)/5))
+  needs:
+    - project: libretro/RetroArch
+      job: ${STATIC_RETROARCH_JOB_NAME}
+      ref: ${STATIC_RETROARCH_BRANCH}
+      artifacts: true
+  script:
+    - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_vita -DCMAKE_TOOLCHAIN_FILE=${VITASDK}/share/vita.toolchain.cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_IGNORE_PATH=/usr/include
+    - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
+    - cp ${MAKEFILE_PATH}/${CORENAME}_libretro_vita.a retroarch-precompiled/libretro_vita.a
+    - mv ${MAKEFILE_PATH}/${CORENAME}_libretro_vita.a retroarch-precompiled-gl/libretro_vita.a
+    - cd retroarch-precompiled/
+    - make -f Makefile.vita -j10
+    - mv retroarch_vita.self ../${CORENAME}_libretro_vita.self
+    - cd ../
+    - cd retroarch-precompiled-gl/
+    - HAVE_VITAGLES=1 make -f Makefile.vita -j10
+    - mv retroarch_vita.self ../${CORENAME}_libretro_vitagl.self
+    - cd ../
+  artifacts:
+    paths:
+    - ${CORENAME}_libretro_vita.self
+    - ${CORENAME}_libretro_vitagl.self
+    expire_in: 10 min
+
+.libretro-vita-static-cmake-retroarch-master:
+  extends: .libretro-vita-static
+  variables:
+    STATIC_RETROARCH_BRANCH: master
+    STATIC_RETROARCH_JOB_NAME: build-static-retroarch-vita
