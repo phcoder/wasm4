@@ -17,13 +17,7 @@
   variables:
     CORE_ARGS: -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE -DCMAKE_BUILD_TYPE=Release
 
-.core-defs-osx-x64:
-  extends: .core-defs
-  variables:
-    CORE_ARGS: -G Xcode -DCMAKE_BUILD_TYPE=Release
-    EXTRA_PATH: Release
-
-.core-defs-osx-x86:
+.core-defs-osx:
   extends: .core-defs
   variables:
     CORE_ARGS: -G Xcode -DCMAKE_BUILD_TYPE=Release
@@ -121,13 +115,13 @@ libretro-build-linux-i686:
 libretro-build-osx-x86:
   extends:
     - .libretro-osx-cmake-x86
-    - .core-defs-osx-x86
+    - .core-defs-osx
 
 # MacOS 64-bit
 libretro-build-osx-x64:
   extends:
-    - .libretro-osx-cmake-x64
-    - .core-defs-osx-x64
+    - .libretro-osx-cmake-x86_64
+    - .core-defs-osx
 
 ################################### CELLULAR #################################
 # Android ARMv7a
