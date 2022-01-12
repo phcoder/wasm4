@@ -35,6 +35,9 @@
 .core-defs-ctr:
   extends: .core-defs
 
+.core-defs-vita:
+  extends: .core-defs
+
 .core-defs-dingux:
   extends: .core-defs
 
