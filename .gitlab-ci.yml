@@ -29,6 +29,9 @@
 .core-defs-emscripten:
   extends: .core-defs
 
+.core-defs-libnx:
+  extends: .core-defs
+
 # Inclusion templates, required for the build to work
 include:
   ################################## DESKTOPS ################################
@@ -48,6 +51,11 @@ include:
   # Android
   - project: 'libretro-infrastructure/ci-templates'
     file: '/android-cmake.yml'
+
+  ################################## CONSOLES ################################
+  # Libnx
+  - project: 'libretro-infrastructure/ci-templates'
+    file: '/libnx-static-cmake.yml' 
 
   ################################## MISC ####################################
   # Emscripten
@@ -119,6 +127,13 @@ android-x86:
   extends:
     - .libretro-android-cmake-x86
     - .core-defs-android
+
+################################### CONSOLES #################################
+# Libnx
+libretro-build-libnx:
+  extends:
+    - .libretro-libnx-static-cmake-retroarch-master
+    - .core-defs-libnx
 
 ################################### MISC #####################################
 
