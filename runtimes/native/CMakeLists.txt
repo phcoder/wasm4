@@ -92,4 +92,6 @@ set_target_properties(wasm4_libretro PROPERTIES
 set_target_properties(wasm4_libretro PROPERTIES PREFIX "")
 if (ANDROID)
     set_target_properties(wasm4_libretro PROPERTIES SUFFIX "_android.so")
+elseif(LIBRETRO_STATIC)
+    set_target_properties(wasm4_libretro PROPERTIES SUFFIX "${LIBRETRO_SUFFIX}.a")
 endif ()
