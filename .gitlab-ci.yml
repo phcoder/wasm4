@@ -23,6 +23,12 @@
     CORE_ARGS: -G Xcode -DCMAKE_BUILD_TYPE=Release
     EXTRA_PATH: Release
 
+.core-defs-osx-x86:
+  extends: .core-defs
+  variables:
+    CORE_ARGS: -G Xcode -DCMAKE_BUILD_TYPE=Release
+    EXTRA_PATH: Release
+
 .core-defs-android:
   extends: .core-defs
 
@@ -111,10 +117,16 @@ libretro-build-linux-i686:
     - .libretro-linux-cmake-x86
     - .core-defs-linux
 
+# MacOS 32-bit
+libretro-build-osx-x86:
+  extends:
+    - .libretro-osx-cmake-x86
+    - .core-defs-osx-x86
+
 # MacOS 64-bit
 libretro-build-osx-x64:
   extends:
-    - .libretro-osx-cmake-x86
+    - .libretro-osx-cmake-x64
     - .core-defs-osx-x64
 
 ################################### CELLULAR #################################
