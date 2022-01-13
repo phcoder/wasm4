@@ -27,7 +27,7 @@
     expire_in: 10 min
 
 .libretro-psl1ght-static-retroarch-master:
-  extends: .libretro-psl1ght-static
+  extends: .libretro-psl1ght-static-cmake
   variables:
     STATIC_RETROARCH_BRANCH: master
     STATIC_RETROARCH_JOB_NAME: build-static-retroarch-psl1ght
