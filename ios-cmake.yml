@@ -30,3 +30,9 @@
   variables:
     ARCH: arm64
     CMAKE: cmake
+
+.libretro-ios-cmake-ios9:
+  extends: .libretro-ios-cmake
+  variables:
+    ARCH: armv7
+    CMAKE: cmake
