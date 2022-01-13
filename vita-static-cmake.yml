@@ -12,7 +12,7 @@
       ref: ${STATIC_RETROARCH_BRANCH}
       artifacts: true
   script:
-    - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_vita -DCMAKE_TOOLCHAIN_FILE=${VITASDK}/share/vita.toolchain.cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_IGNORE_PATH=/usr/include
+    - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_vita -DCMAKE_TOOLCHAIN_FILE=${VITASDK}/share/vita.toolchain.cmake
     - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
     - cp $BUILD_DIR/$EXTRA_PATH/${CORENAME}_libretro_vita.a retroarch-precompiled/libretro_vita.a
     - mv $BUILD_DIR/$EXTRA_PATH/${CORENAME}_libretro_vita.a retroarch-precompiled-gl/libretro_vita.a
