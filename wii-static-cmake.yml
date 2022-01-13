@@ -6,6 +6,7 @@
     CMAKE_SOURCE_ROOT: .
   before_script:
     - export NUMPROC=$(($(nproc)/5))
+    - export PATH=$PATH:$DEVKITPPC/bin
   needs:
     - project: libretro/RetroArch
       job: ${STATIC_RETROARCH_JOB_NAME}
