@@ -48,11 +48,11 @@
     DINGUX_TOOLCHAIN_FILE: /opt/retrofw-toolchain/usr/share/buildroot/toolchainfile.cmake
     STRIP:                 /opt/retrofw-toolchain/usr/bin/mipsel-RetroFW-linux-uclibc-strip
 
-.libretro-miyoo-odbeta-cmake-arm32:
+.libretro-miyoo-cmake-arm32:
   extends: .libretro-dingux-cmake
   variables:
     ARCH:            arm
     DINGUX_CFLAGS:   -fomit-frame-pointer -ffast-math -march=armv5te -mtune=arm926ej-s -ftree-vectorize -funswitch-loops
     DINGUX_CXXFLAGS: -fomit-frame-pointer -ffast-math -march=armv5te -mtune=arm926ej-s -ftree-vectorize -funswitch-loops
     DINGUX_TOOLCHAIN_FILE: /opt/miyoo/usr/share/buildroot/toolchainfile.cmake
-    STRIP:                 /opt/miyoo/usr/bin/mipsel-RetroFW-linux-uclibc-strip
+    STRIP:                 /opt/miyoo/usr/bin/arm-miyoo-linux-uclibcgnueabi-strip

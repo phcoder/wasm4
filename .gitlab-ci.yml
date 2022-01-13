@@ -285,9 +285,9 @@ libretro-build-retrofw-mips32-odbeta:
     - .libretro-retrofw-odbeta-cmake-mips32
     - .core-defs
 
-libretro-build-miyoo-arm32-odbeta:
+libretro-build-miyoo-arm32:
   extends:
-    - .libretro-miyoo-odbeta-cmake-arm32
+    - .libretro-miyoo-cmake-arm32
     - .core-defs
 
 # iOS arm64
