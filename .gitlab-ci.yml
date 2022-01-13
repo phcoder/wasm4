@@ -23,30 +23,6 @@
     CORE_ARGS: -G Xcode -DCMAKE_BUILD_TYPE=Release
     EXTRA_PATH: Release
 
-.core-defs-android:
-  extends: .core-defs
-
-.core-defs-emscripten:
-  extends: .core-defs
-
-.core-defs-libnx:
-  extends: .core-defs
-
-.core-defs-ctr:
-  extends: .core-defs
-
-.core-defs-psp:
-  extends: .core-defs
-
-.core-defs-ps2:
-  extends: .core-defs
-
-.core-defs-vita:
-  extends: .core-defs
-
-.core-defs-dingux:
-  extends: .core-defs
-
 # Inclusion templates, required for the build to work
 include:
   ################################## DESKTOPS ################################
@@ -165,62 +141,62 @@ libretro-build-osx-aarch64:
 android-armeabi-v7a:
   extends:
     - .libretro-android-cmake-armeabi-v7a
-    - .core-defs-android
+    - .core-defs
 
 # Android ARMv8a
 android-arm64-v8a:
   extends:
     - .libretro-android-cmake-arm64-v8a
-    - .core-defs-android
+    - .core-defs
 
 # Android 64-bit x86
 android-x86_64:
   extends:
     - .libretro-android-cmake-x86_64
-    - .core-defs-android
+    - .core-defs
 
 # Android 32-bit x86
 android-x86:
   extends:
     - .libretro-android-cmake-x86
-    - .core-defs-android
+    - .core-defs
 
 ################################### CONSOLES #################################
 # Libnx
 libretro-build-libnx:
   extends:
     - .libretro-libnx-static-cmake-retroarch-master
-    - .core-defs-libnx
+    - .core-defs
 
 # CTR (3ds)
 libretro-build-ctr:
   extends:
     - .libretro-ctr-static-cmake-retroarch-master
-    - .core-defs-ctr
+    - .core-defs
 
 # PSP
 libretro-build-psp:
   extends:
     - .libretro-psp-static-cmake-retroarch-master
-    - .core-defs-psp
+    - .core-defs
 
 # PS2
 libretro-build-ps2:
   extends:
     - .libretro-ps2-static-cmake-retroarch-master
-    - .core-defs-ps2
+    - .core-defs
 
 # VITA
 libretro-build-vita:
   extends:
     - .libretro-vita-static-cmake-retroarch-master
-    - .core-defs-vita
+    - .core-defs
 
 # Dingux
 libretro-build-dingux:
   extends:
     - .libretro-dingux-cmake-mips32
-    - .core-defs-dingux
+    - .core-defs
 
 ################################### MISC #####################################
 
@@ -228,4 +204,4 @@ libretro-build-dingux:
 libretro-build-emscripten:
   extends:
     - .libretro-emscripten-static-cmake-retroarch-master
-    - .core-defs-emscripten
+    - .core-defs
