@@ -7,12 +7,12 @@
     BUILD_DIR: build/ios-$ARCH
     CMAKE: cmake
     STRIP_CORE_LIB: 1
-    IOS_MIN_TARGET: "8.0"
+    IOS_MINVER: "8.0"
     CMAKE_SOURCE_ROOT: .
   before_script:
     - export NUMPROC=$(($(nproc)/5))
   script:
-    - ${CMAKE} $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_C_FLAGS="-arch $ARCH -DIOS" -DCMAKE_CXX_FLAGS="-arch $ARCH -DIOS" -DIOS=ON -DCMAKE_SYSTEM_NAME=iOS
+    - ${CMAKE} $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_C_FLAGS="-arch $ARCH -DIOS -miphoneos-version-min=${IOS_MINVER}" -DCMAKE_CXX_FLAGS="-arch $ARCH -DIOS -miphoneos-version-min=${IOS_MINVER}" -DIOS=ON -DCMAKE_SYSTEM_NAME=iOS
     - ${CMAKE} --build $BUILD_DIR --target ${CORENAME}_libretro --config Release --verbose -- -j $NUMPROC
     - mv $BUILD_DIR/$EXTRA_PATH/$LIBNAME $LIBNAME
     #- if [ $STRIP_CORE_LIB -eq 1 ]; then strip --strip-unneeded $LIBNAME; fi
