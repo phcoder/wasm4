@@ -17,10 +17,8 @@
     - mv $BUILD_DIR/$EXTRA_PATH/$LIBNAME $LIBNAME
     #- if [ $STRIP_CORE_LIB -eq 1 ]; then strip --strip-unneeded $LIBNAME; fi
   after_script:
-    - otool -l "${LIBNAME}" | grep -A3 'LC_VERSION_MIN_IOS' || true
-    - otool -l "${LIBNAME}" | grep -A5 'platform ios' || true
+    - otool -l "${LIBNAME}" | grep -A3 'LC_VERSION_MIN_IPHONEOS' || true
     - otool -L "${LIBNAME}" || true
-    - otool -l "${LIBNAME}" || true
   artifacts:
     paths:
       - $LIBNAME
