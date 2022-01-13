@@ -34,6 +34,11 @@ include:
   - project: 'libretro-infrastructure/ci-templates'
     file: 'osx-cmake-x86.yml'
 
+  # MacOS (PPC)
+#  - project: 'libretro-infrastructure/ci-templates'
+#    file: 'osx-cmake-ppc.yml'
+  - 'osx-cmake-ppc.yml'
+
   # Linux
   - project: 'libretro-infrastructure/ci-templates'
     file: '/linux-cmake.yml'
@@ -138,6 +143,12 @@ libretro-build-osx-x86:
 libretro-build-osx-x64:
   extends:
     - .libretro-osx-cmake-x86_64
+    - .core-defs-osx
+
+# MacOS PPC
+libretro-build-osx-ppc:
+  extends:
+    - .libretro-osx-cmake-ppc
     - .core-defs-osx
 
 # MacOS ARM64
