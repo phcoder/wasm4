@@ -26,7 +26,7 @@
     - ${CORENAME}_libretro_psl1ght.self
     expire_in: 10 min
 
-.libretro-psl1ght-static-cmake-retroarch-master
+.libretro-psl1ght-static-cmake-retroarch-master:
   extends: .libretro-psl1ght-static-cmake
   variables:
     STATIC_RETROARCH_BRANCH: master
