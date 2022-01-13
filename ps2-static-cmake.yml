@@ -1,0 +1,31 @@
+.libretro-ps2-static-cmake:
+  image: $CI_SERVER_HOST:5050/libretro-infrastructure/libretro-build-ps2:latest
+  stage: build-static
+  variables:
+    BUILD_DIR: build/ps2
+    CMAKE_SOURCE_ROOT: .
+  before_script:
+    - export NUMPROC=$(($(nproc)/5))
+  needs:
+    - project: libretro/RetroArch
+      job: ${STATIC_RETROARCH_JOB_NAME}
+      ref: ${STATIC_RETROARCH_BRANCH}
+      artifacts: true
+  script:
+    - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_ps21 -DBUILD_SHARED_LIBS=OFF -DCMAKE_IGNORE_PATH=/usr/include -DCMAKE_C_FLAGS="-G0 -DPS2 -DUSE_RGB565" -DCMAKE_CXX_FLAGS="-G0 -DPS2 -DUSE_RGB565" -DCMAKE_CROSSCOMPILING=1 -DCMAKE_SYSTEM_NAME=1 -DCMAKE_C_COMPILER=/usr/local/ps2dev/bin/ps2-gcc -DCMAKE_CXX_COMPILER=/usr/local/ps2dev/bin/ps2-g++ -DCMAKE_AR=/usr/local/ps2dev/bin/ps2-ar -DPS2=ON -DPS21=ON -DCMAKE_C_COMPILER_WORKS=ON -DCMAKE_CXX_COMPILER_WORKS=ON -DCMAKE_POSITION_INDEPENDENT_CODE=OFF
+    - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
+    - mv $BUILD_DIR/$EXTRA_PATH/${CORENAME}_libretro_ps21.a retroarch-precompiled/libretro_ps21.a
+    - cd retroarch-precompiled/
+    - make -f Makefile.ps2 -j$NUMPROC
+    - mv EBOOT.PBP ../${CORENAME}_libretro_ps2.PBP
+    - cd ../
+  artifacts:
+    paths:
+    - ${CORENAME}_libretro_ps2.PBP
+    expire_in: 10 min
+
+.libretro-ps2-static-cmake-retroarch-master:
+  extends: .libretro-ps2-static-cmake
+  variables:
+    STATIC_RETROARCH_BRANCH: master
+    STATIC_RETROARCH_JOB_NAME: build-static-retroarch-ps2
