@@ -1,0 +1,33 @@
+.libretro-wii-static-cmake:
+  image: $CI_SERVER_HOST:5050/libretro-infrastructure/libretro-build-devkitpro:latest
+  stage: build-static
+  variables:
+    BUILD_DIR: build/psp
+    CMAKE_SOURCE_ROOT: .
+  before_script:
+    - export NUMPROC=$(($(nproc)/5))
+  needs:
+    - project: libretro/RetroArch
+      job: ${STATIC_RETROARCH_JOB_NAME}
+      ref: ${STATIC_RETROARCH_BRANCH}
+      artifacts: true
+  script:
+    - ls /opt/devkitpro
+    - ls /opt/devkitpro/*
+    - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_psp1 -DCMAKE_IGNORE_PATH=/usr/include -DCMAKE_C_FLAGS="-DGEKKO -DHW_RVL -mrvl -mcpu=750 -meabi -mhard-float" -DCMAKE_CXX_FLAGS="-DGEKKO -DHW_RVL -mrvl -mcpu=750 -meabi -mhard-float" -DCMAKE_TOOLCHAIN_FILE=/usr/local/pspdev/psp/share/cmake/PSP.cmake
+    - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
+    - mv ${MAKEFILE_PATH}/${CORENAME}_libretro_wii.a retroarch-precompiled/libretro_wii.a
+    - cd retroarch-precompiled/
+    - make -f Makefile.wii -j$NUMPROC EXTERNAL_LIBOGC=1 GX_PTHREAD_LEGACY=0 LIBRETRO=${CORENAME}
+    - mv retroarch_wii.dol ../${CORENAME}_libretro_wii.dol
+    - cd ../
+  artifacts:
+    paths:
+    - ${CORENAME}_libretro_wii.dol
+    expire_in: 10 min
+
+.libretro-wii-static-cmake-retroarch-master:
+  extends: .libretro-wii-static-cmake
+  variables:
+    STATIC_RETROARCH_BRANCH: master
+    STATIC_RETROARCH_JOB_NAME: build-static-retroarch-wii
