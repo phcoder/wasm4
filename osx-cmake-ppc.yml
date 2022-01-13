@@ -14,7 +14,7 @@ include:
     STRIP_CORE_LIB: 1
     CMAKE_SOURCE_ROOT: .
   script:
-    - ${CMAKE} $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_C_FLAGS="-D__SIZEOF_POINTER__=4" -DCMAKE_CXX_FLAGS="-D__SIZEOF_POINTER__=4"
+    - ${CMAKE} $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_C_FLAGS="-D__SIZEOF_POINTER__=4 -D__PPC__=1" -DCMAKE_CXX_FLAGS="-D__SIZEOF_POINTER__=4 -D__ORDER_BIG_ENDIAN__=4321 -D__BYTE_ORDER__=4321 -D__ORDER_LITTLE_ENDIAN__=1234 -D__PPC__=1"
     - ${CMAKE} --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
   after_script:
     - if [ ! -f ${CORENAME}_libretro.dylib ]; then mv ${MAKEFILE_PATH}/${CORENAME}_libretro.dylib ${CORENAME}_libretro.dylib; fi
