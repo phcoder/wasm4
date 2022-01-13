@@ -1,9 +1,9 @@
-.libretro-psp-static:
+.libretro-psp-static-cmake:
   image: $CI_SERVER_HOST:5050/libretro-infrastructure/libretro-build-psp:latest
   stage: build-static
   variables:
-    MAKEFILE: Makefile
-    MAKEFILE_PATH: .
+    BUILD_DIR: build/psp
+    CMAKE_SOURCE_ROOT: .
   before_script:
     - export NUMPROC=$(($(nproc)/5))
   needs:
@@ -12,8 +12,9 @@
       ref: ${STATIC_RETROARCH_BRANCH}
       artifacts: true
   script:
-    - make -C ${MAKEFILE_PATH} -f ${MAKEFILE} -j$NUMPROC platform=psp1
-    - mv ${MAKEFILE_PATH}/${CORENAME}_libretro_psp1.a retroarch-precompiled/libretro_psp1.a
+    - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_psp1 -DBUILD_SHARED_LIBS=OFF -DCMAKE_IGNORE_PATH=/usr/include -DCFLAGS="-G0 -DPSP -DUSE_RGB565" -DCXXFLAGS="-G0 -DPSP -DUSE_RGB565" -DCMAKE_CROSSCOMPILING=1 -DCMAKE_SYSTEM_NAME=1 -DCMAKE_C_COMPILER=psp-gcc -DCMAKE_CXX_COMPILER=psp-g++ -DCMAKE_AR=psp-ar -DPSP -DPSP1
+    - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
+    - mv $BUILD_DIR/$EXTRA_PATH/${CORENAME}_libretro_psp1.a retroarch-precompiled/libretro_psp1.a
     - cd retroarch-precompiled/
     - make -f Makefile.psp1 -j$NUMPROC
     - mv EBOOT.PBP ../${CORENAME}_libretro_psp.PBP
@@ -24,7 +25,7 @@
     expire_in: 10 min
 
 .libretro-psp-static-cmake-retroarch-master:
-  extends: .libretro-psp-static
+  extends: .libretro-psp-static-cmake
   variables:
     STATIC_RETROARCH_BRANCH: master
     STATIC_RETROARCH_JOB_NAME: build-static-retroarch-psp
