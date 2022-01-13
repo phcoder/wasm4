@@ -39,11 +39,11 @@
   extends: .libretro-dingux-cmake-mips32
   variables:
     DINGUX_TOOLCHAIN_FILE: /opt/rs90-toolchain/usr/share/buildroot/toolchainfile.cmake
-    STRIP:                 /opt/rs90-toolchain/usr/bin/mipsel-rs90-linux-uclibc-strip
+    STRIP:                 /opt/rs90-toolchain/usr/bin/mipsel-rs90-linux-musl-strip
 
 .libretro-retrofw-odbeta-cmake-mips32:
   image: $CI_SERVER_HOST:5050/libretro-infrastructure/libretro-build-dingux:odbeta
   extends: .libretro-dingux-cmake-mips32
   variables:
     DINGUX_TOOLCHAIN_FILE: /opt/retrofw-toolchain/usr/share/buildroot/toolchainfile.cmake
-    STRIP:                 /opt/retrofw-toolchain/usr/bin/mipsel-retrofw-linux-uclibc-strip
+    STRIP:                 /opt/retrofw-toolchain/usr/bin/mipsel-RetroFW-linux-uclibc-strip
