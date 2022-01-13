@@ -13,6 +13,8 @@
       ref: ${STATIC_RETROARCH_BRANCH}
       artifacts: true
   script:
+    - ls /opt/devkitpro
+    - ls /opt/devkitpro/*
     - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_wiiu -DCMAKE_C_FLAGS="-DGEKKO -DWIIU -DHW_RVL -mwup -mcpu=750 -meabi -mhard-float" -DCMAKE_CXX_FLAGS="-DGEKKO -DWIIU -DHW_RVL -mwup -mcpu=750 -meabi -mhard-float" -DCMAKE_TOOLCHAIN_FILE=/opt/devkitpro/wiiu.cmake
     - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
     - mv $BUILD_DIR/$EXTRA_PATH/${CORENAME}_libretro_wiiu.a retroarch-precompiled/libretro_wiiu.a
