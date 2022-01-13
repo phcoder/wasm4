@@ -1,0 +1,31 @@
+.libretro-tvos-cmake:
+  stage: build-shared
+  tags:
+   - macosx-packaging
+  variables:
+    LIBNAME: ${CORENAME}_libretro.dylib
+    BUILD_DIR: build/ios-$ARCH
+    CMAKE: cmake
+    STRIP_CORE_LIB: 1
+    CMAKE_SOURCE_ROOT: .
+  before_script:
+    - export NUMPROC=$(($(nproc)/5))
+  script:
+    - ${CMAKE} $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_C_FLAGS="-arch $ARCH -DIOS" -DCMAKE_CXX_FLAGS="-arch $ARCH -DIOS" -DIOS=ON -DCMAKE_SYSTEM_NAME=tvOS
+    - ${CMAKE} --build $BUILD_DIR --target ${CORENAME}_libretro --config Release --verbose -- -j $NUMPROC
+    - mv $BUILD_DIR/$EXTRA_PATH/$LIBNAME $LIBNAME
+    #- if [ $STRIP_CORE_LIB -eq 1 ]; then strip --strip-unneeded $LIBNAME; fi
+  after_script:
+    - otool -l "${LIBNAME}" | grep -A3 'LC_VERSION_MIN_IPHONEOS' || true
+    - otool -L "${LIBNAME}" || true
+  artifacts:
+    paths:
+      - $LIBNAME
+    expire_in: 10 min
+  dependencies: []
+
+.libretro-tvos-cmake-arm64:
+  extends: .libretro-tvos-cmake
+  variables:
+    ARCH: arm64
+    CMAKE: cmake

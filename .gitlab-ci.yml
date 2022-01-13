@@ -76,6 +76,11 @@ include:
   - project: 'libretro-infrastructure/ci-templates'
     file: '/dingux-cmake.yml' 
 
+  # iOS
+#  - project: 'libretro-infrastructure/ci-templates'
+#    file: '/ios-cmake.yml'
+  - 'tvos-cmake.yml'
+
   ################################## MISC ####################################
   # Emscripten
   - project: 'libretro-infrastructure/ci-templates'
@@ -213,6 +218,12 @@ libretro-build-vita:
 libretro-build-dingux:
   extends:
     - .libretro-dingux-cmake-mips32
+    - .core-defs
+
+# iOS arm64
+libretro-build-tvos-arm64:
+  extends:
+    - .libretro-tvos-cmake-arm64
     - .core-defs
 
 ################################### MISC #####################################
