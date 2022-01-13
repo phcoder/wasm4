@@ -1,0 +1,32 @@
+.libretro-ngc-static-cmake:
+  image: $CI_SERVER_HOST:5050/libretro-infrastructure/libretro-build-devkitpro:latest
+  stage: build-static
+  variables:
+    BUILD_DIR: build/ngc
+    CMAKE_SOURCE_ROOT: .
+  before_script:
+    - export NUMPROC=$(($(nproc)/5))
+    - export PATH=$PATH:$DEVKITPPC/bin
+  needs:
+    - project: libretro/RetroArch
+      job: ${STATIC_RETROARCH_JOB_NAME}
+      ref: ${STATIC_RETROARCH_BRANCH}
+      artifacts: true
+  script:
+    - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_ngc -DCMAKE_C_FLAGS="-DGEKKO -DHW_DOL -mrvl -mcpu=750 -meabi -mhard-float" -DCMAKE_CXX_FLAGS="-DGEKKO -DHW_DOL -mrvl -mcpu=750 -meabi -mhard-float" -DCMAKE_TOOLCHAIN_FILE=/opt/devkitpro/gamecube.cmake
+    - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
+    - mv $BUILD_DIR/$EXTRA_PATH/${CORENAME}_libretro_ngc.a retroarch-precompiled/libretro_ngc.a
+    - cd retroarch-precompiled/
+    - make -f Makefile.ngc -j$NUMPROC EXTERNAL_LIBOGC=1 GX_PTHREAD_LEGACY=0 LIBRETRO=${CORENAME}
+    - mv retroarch_ngc.dol ../${CORENAME}_libretro_ngc.dol
+    - cd ../
+  artifacts:
+    paths:
+    - ${CORENAME}_libretro_ngc.dol
+    expire_in: 10 min
+
+.libretro-ngc-static-cmake-retroarch-master:
+  extends: .libretro-ngc-static-cmake
+  variables:
+    STATIC_RETROARCH_BRANCH: master
+    STATIC_RETROARCH_JOB_NAME: build-static-retroarch-ngc

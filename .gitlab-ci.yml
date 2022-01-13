@@ -86,6 +86,11 @@ include:
 #    file: '/wii-static-cmake.yml'
   - 'wii-static-cmake.yml'
 
+  # Gamecube
+#  - project: 'libretro-infrastructure/ci-templates'
+#    file: '/ngc-static-cmake.yml'
+  - 'ngc-static-cmake.yml'
+
   # iOS
 #  - project: 'libretro-infrastructure/ci-templates'
 #    file: '/ios-cmake.yml'
@@ -228,6 +233,12 @@ libretro-build-ps2:
 libretro-build-wii:
   extends:
     - .libretro-wii-static-cmake-retroarch-master
+    - .core-defs
+
+# Gamecube
+libretro-build-ngc:
+  extends:
+    - .libretro-ngc-static-cmake-retroarch-master
     - .core-defs
 
 # VITA
