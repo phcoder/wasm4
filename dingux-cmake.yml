@@ -49,7 +49,6 @@
     STRIP:                 /opt/retrofw-toolchain/usr/bin/mipsel-RetroFW-linux-uclibc-strip
 
 .libretro-miyoo-odbeta-cmake-arm32:
-  image: $CI_SERVER_HOST:5050/libretro-infrastructure/libretro-build-dingux:odbeta
   extends: .libretro-dingux-cmake
   variables:
     ARCH:            arm
