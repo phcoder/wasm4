@@ -177,7 +177,7 @@ libretro-build-ios-arm64:
     - .libretro-ios-cmake-arm64
     - .core-defs
 
-# iOS arm64
+# iOS armv7
 libretro-build-ios9:
   extends:
     - .libretro-ios-cmake-ios9
