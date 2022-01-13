@@ -1,0 +1,15 @@
+set(CMAKE_C_COMPILER "$ENV{PS3DEV}/ppu/bin/ppu-gcc")
+set(CMAKE_CXX_COMPILER "$ENV{PS3DEV}/ppu/bin/ppu-g++")
+set(CMAKE_AR "$ENV{PS3DEV}/ppu/bin/ppu-ar")
+
+set(CMAKE_RANLIB "$ENV{PS3DEV}/ppu/bin/ppu-ranlib")
+set(CMAKE_SYSTEM_PROCESSOR ppc64)
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_CROSSCOMPILING ON)
+set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
+set(CMAKE_C_LINK_FLAGS "")
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+
+add_definitions(-D__CELLOS_LV2__ -D__ppc_)
+set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "Shared libs not available" )
+set(CMAKE_POSITION_INDEPENDENT_CODE OFF)
