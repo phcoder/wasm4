@@ -16,12 +16,12 @@
     - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
     - mv $BUILD_DIR/$EXTRA_PATH/${CORENAME}_libretro_ps2.a retroarch-precompiled/libretro_ps2.a
     - cd retroarch-precompiled/
-    - make -f Makefile.ps2 -j$NUMPROC
-    - mv EBOOT.PBP ../${CORENAME}_libretro_ps2.PBP
+    - make -f Makefile.ps2 release
+    - mv retroarchps2.elf ../${CORENAME}_libretro_ps2.elf
     - cd ../
   artifacts:
     paths:
-    - ${CORENAME}_libretro_ps2.PBP
+    - ${CORENAME}_libretro_ps2.elf
     expire_in: 10 min
 
 .libretro-ps2-static-cmake-retroarch-master:
