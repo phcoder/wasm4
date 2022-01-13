@@ -12,9 +12,8 @@
       ref: ${STATIC_RETROARCH_BRANCH}
       artifacts: true
   script:
-    - ls /usr/local/pspdev/psp/share/cmake
-    - ls /usr/local/pspdev/psp/share/cmake/*
-    - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_psp1 -DBUILD_SHARED_LIBS=OFF -DCMAKE_IGNORE_PATH=/usr/include -DCMAKE_C_FLAGS="-G0 -DPSP -DUSE_RGB565" -DCMAKE_CXX_FLAGS="-G0 -DPSP -DUSE_RGB565" -DCMAKE_CROSSCOMPILING=1 -DCMAKE_SYSTEM_NAME=1 -DCMAKE_C_COMPILER=/usr/local/pspdev/bin/psp-gcc -DCMAKE_CXX_COMPILER=/usr/local/pspdev/bin/psp-g++ -DCMAKE_AR=/usr/local/pspdev/bin/psp-ar -DPSP=ON -DPSP1=ON -DCMAKE_C_COMPILER_WORKS=ON -DCMAKE_CXX_COMPILER_WORKS=ON -DCMAKE_POSITION_INDEPENDENT_CODE=OFF
+    - cat /usr/local/pspdev/psp/share/cmake/PSP.cmake
+    - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_psp1 -DCMAKE_IGNORE_PATH=/usr/include -DCMAKE_C_FLAGS="-G0 -DPSP -DUSE_RGB565" -DCMAKE_CXX_FLAGS="-G0 -DPSP -DUSE_RGB565" -DCMAKE_TOOLCHAIN_FILE=/usr/local/pspdev/psp/share/cmake/PSP.cmake
     - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
     - mv $BUILD_DIR/$EXTRA_PATH/${CORENAME}_libretro_psp1.a retroarch-precompiled/libretro_psp1.a
     - cd retroarch-precompiled/
