@@ -264,9 +264,14 @@ libretro-build-psl1ght:
     - .core-defs
 
 # Dingux
-libretro-build-dingux:
+libretro-build-dingux-mips32:
   extends:
     - .libretro-dingux-cmake-mips32
+    - .core-defs
+
+libretro-build-dingux-mips32-odbeta:
+  extends:
+    - .libretro-dingux-odbeta-cmake-mips32
     - .core-defs
 
 # iOS arm64
