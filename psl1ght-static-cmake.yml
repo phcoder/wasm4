@@ -14,7 +14,7 @@
   script:
     - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_psl1ght -DCMAKE_TOOLCHAIN_FILE=../../psl1ght.cmake
     - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
-    - mv ${MAKEFILE_PATH}/${CORENAME}_libretro_psl1ght.a retroarch-precompiled/libretro_psl1ght.a
+    - mv $BUILD_DIR/$EXTRA_PATH/${CORENAME}_libretro_psl1ght.a retroarch-precompiled/libretro_psl1ght.a
     - cd retroarch-precompiled/
     - make -f Makefile.psl1ght -j$NUMPROC LIBRETRO=${CORENAME}
     - mv retroarch_psl1ght.self ../${CORENAME}_libretro_psl1ght.self
