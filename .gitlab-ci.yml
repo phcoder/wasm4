@@ -81,6 +81,11 @@ include:
   - project: 'libretro-infrastructure/ci-templates'
     file: '/dingux-cmake.yml'
 
+  # WiiU
+#  - project: 'libretro-infrastructure/ci-templates'
+#    file: '/wiiu-static-cmake.yml'
+  - 'wiiu-static-cmake.yml'
+
   # Wii
 #  - project: 'libretro-infrastructure/ci-templates'
 #    file: '/wii-static-cmake.yml'
@@ -229,10 +234,10 @@ libretro-build-ps2:
     - .libretro-ps2-static-cmake-retroarch-master
     - .core-defs
 
-# Wii
-libretro-build-wii:
+# WiiU
+libretro-build-wiiu:
   extends:
-    - .libretro-wii-static-cmake-retroarch-master
+    - .libretro-wiiu-static-cmake-retroarch-master
     - .core-defs
 
 # Gamecube
