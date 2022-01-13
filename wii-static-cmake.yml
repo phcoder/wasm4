@@ -15,6 +15,7 @@
     - ls /opt/devkitpro
     - ls /opt/devkitpro/*
     - cat /opt/devkitpro/wii.cmake
+    - cat /opt/devkitpro/devkitppc.cmake
     - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_wii -DCMAKE_IGNORE_PATH=/usr/include -DCMAKE_C_FLAGS="-DGEKKO -DHW_RVL -mrvl -mcpu=750 -meabi -mhard-float" -DCMAKE_CXX_FLAGS="-DGEKKO -DHW_RVL -mrvl -mcpu=750 -meabi -mhard-float" -DCMAKE_TOOLCHAIN_FILE=/opt/devkitpro/wii.cmake
     - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
     - mv ${MAKEFILE_PATH}/${CORENAME}_libretro_wii.a retroarch-precompiled/libretro_wii.a
