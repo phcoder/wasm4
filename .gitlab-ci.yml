@@ -72,6 +72,11 @@ include:
 #    file: '/ps2-static-cmake.yml'
   - 'ps2-static-cmake.yml'
 
+  # PSL1GHT
+#  - project: 'libretro-infrastructure/ci-templates'
+#    file: '/psl1ght-static-cmake.yml'
+  - 'psl1ght-static-cmake.yml'
+
   # VITA
 #  - project: 'libretro-infrastructure/ci-templates'
 #    file: '/vita-static-cmake.yml'
@@ -250,6 +255,12 @@ libretro-build-ngc:
 libretro-build-vita:
   extends:
     - .libretro-vita-static-cmake-retroarch-master
+    - .core-defs
+
+# VITA
+libretro-build-psl1ght:
+  extends:
+    - .libretro-psl1ght-static-cmake-retroarch-master
     - .core-defs
 
 # Dingux

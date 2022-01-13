@@ -1,0 +1,33 @@
+.libretro-psl1ght-static-cmake:
+  image: $CI_SERVER_HOST:5050/libretro-infrastructure/libretro-build-psl1ght:latest
+  stage: build-static
+  variables:
+    BUILD_DIR: build/psl1ght
+    CMAKE_SOURCE_ROOT: .
+  before_script:
+    - export NUMPROC=$(($(nproc)/5))
+  needs:
+    - project: libretro/RetroArch
+      job: ${STATIC_RETROARCH_JOB_NAME}
+      ref: ${STATIC_RETROARCH_BRANCH}
+      artifacts: true
+  script:
+    - ls /opt/ps3dev
+    - ls /opt/ps3dev/*
+    - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_psl1ght -DCMAKE_TOOLCHAIN_FILE=/opt/ps3dev/psl1ght.cmake
+    - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
+    - mv ${MAKEFILE_PATH}/${CORENAME}_libretro_psl1ght.a retroarch-precompiled/libretro_psl1ght.a
+    - cd retroarch-precompiled/
+    - make -f Makefile.psl1ght -j$NUMPROC LIBRETRO=${CORENAME}
+    - mv retroarch_psl1ght.self ../${CORENAME}_libretro_psl1ght.self
+    - cd ../
+  artifacts:
+    paths:
+    - ${CORENAME}_libretro_psl1ght.self
+    expire_in: 10 min
+
+.libretro-psl1ght-static-retroarch-master:
+  extends: .libretro-psl1ght-static
+  variables:
+    STATIC_RETROARCH_BRANCH: master
+    STATIC_RETROARCH_JOB_NAME: build-static-retroarch-psl1ght
