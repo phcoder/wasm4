@@ -14,7 +14,7 @@
   script:
     - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_ps2 -DBUILD_SHARED_LIBS=OFF -DCMAKE_IGNORE_PATH=/usr/include -DCMAKE_C_FLAGS="-G0 -DPS2 -DUSE_RGB565" -DCMAKE_CXX_FLAGS="-G0 -DPS2 -DUSE_RGB565" -DCMAKE_TOOLCHAIN_FILE=/usr/local/ps2dev/ps2sdk/ps2dev.cmake
     - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
-    - mv $BUILD_DIR/$EXTRA_PATH/${CORENAME}_libretro_ps21.a retroarch-precompiled/libretro_ps21.a
+    - mv $BUILD_DIR/$EXTRA_PATH/${CORENAME}_libretro_ps2.a retroarch-precompiled/libretro_ps2.a
     - cd retroarch-precompiled/
     - make -f Makefile.ps2 -j$NUMPROC
     - mv EBOOT.PBP ../${CORENAME}_libretro_ps2.PBP
