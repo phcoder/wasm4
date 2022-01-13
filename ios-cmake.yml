@@ -7,7 +7,7 @@
     BUILD_DIR: build/ios-$ARCH
     CMAKE: cmake
     STRIP_CORE_LIB: 1
-    IOS_MINVER: 8.0
+    IOS_MINVER: "8.0"
     CMAKE_SOURCE_ROOT: .
   before_script:
     - export NUMPROC=$(($(nproc)/5))
