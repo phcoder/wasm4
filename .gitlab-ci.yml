@@ -149,7 +149,7 @@ libretro-build-osx-x64:
 libretro-build-osx-ppc:
   extends:
     - .libretro-osx-cmake-ppc
-    - .core-defs-osx
+    - .core-defs
 
 # MacOS ARM64
 libretro-build-osx-aarch64:
