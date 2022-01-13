@@ -324,10 +324,10 @@ void w4_windowComposite (const uint32_t* palette, const uint8_t* framebuffer) {
     uint32_t* out = dest;
     for (int n = 0; n < 160*160/4; ++n) {
         uint8_t quartet = framebuffer[n];
-        int color1 = (quartet & 0b00000011) >> 0;
-        int color2 = (quartet & 0b00001100) >> 2;
-        int color3 = (quartet & 0b00110000) >> 4;
-        int color4 = (quartet & 0b11000000) >> 6;
+        int color1 = (quartet & 0x03) >> 0;
+        int color2 = (quartet & 0x0c) >> 2;
+        int color3 = (quartet & 0x30) >> 4;
+        int color4 = (quartet & 0xc0) >> 6;
 
         *out++ = palette[color1];
         *out++ = palette[color2];
