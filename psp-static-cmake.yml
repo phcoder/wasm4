@@ -23,7 +23,7 @@
     - ${CORENAME}_libretro_psp.PBP
     expire_in: 10 min
 
-.libretro-psp-static-retroarch-master:
+.libretro-psp-static-cmake-retroarch-master:
   extends: .libretro-psp-static
   variables:
     STATIC_RETROARCH_BRANCH: master
