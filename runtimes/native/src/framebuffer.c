@@ -40,7 +40,7 @@ static void drawHLine (uint8_t color, int startX, int y, int endX) {
 
         int from = (WIDTH * y + fillStart) >> 2;
         int to = (WIDTH * y + fillEnd) >> 2;
-        uint8_t fillColor = color * 0b01010101;
+        uint8_t fillColor = color * 0x55;
 
         memset(framebuffer+from, fillColor, to-from);
         startX = fillEnd;
@@ -352,12 +352,12 @@ void w4_framebufferBlit (const uint8_t* sprite, int dstX, int dstY, int width, i
             if (bpp2) {
                 uint8_t byte = sprite[bitIndex >> 2];
                 int shift = 6 - ((bitIndex & 0x03) << 1);
-                colorIdx = (byte >> shift) & 0b11;
+                colorIdx = (byte >> shift) & 0x3;
 
             } else {
                 uint8_t byte = sprite[bitIndex >> 3];
                 int shift = 7 - (bitIndex & 0x07);
-                colorIdx = (byte >> shift) & 0b1;
+                colorIdx = (byte >> shift) & 0x1;
             }
 
             // Get the final color using the drawColors indirection
