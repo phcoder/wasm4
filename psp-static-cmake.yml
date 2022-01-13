@@ -12,7 +12,7 @@
       ref: ${STATIC_RETROARCH_BRANCH}
       artifacts: true
   script:
-    - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_psp1 -DBUILD_SHARED_LIBS=OFF -DCMAKE_IGNORE_PATH=/usr/include -DCFLAGS="-G0 -DPSP -DUSE_RGB565" -DCXXFLAGS="-G0 -DPSP -DUSE_RGB565" -DCMAKE_CROSSCOMPILING=1 -DCMAKE_SYSTEM_NAME=1 -DCMAKE_C_COMPILER=psp-gcc -DCMAKE_CXX_COMPILER=psp-g++ -DCMAKE_AR=psp-ar -DPSP=ON -DPSP1=ON -DLDFLAGS="-lstdc++ -lpspgu -lpspgum -lm -lpspaudio -lpspfpu -lpsppower -lpsprtc -lpthread-psp"
+    - cmake $CORE_ARGS "$CMAKE_SOURCE_ROOT" -B$BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DLIBRETRO_STATIC=ON -DLIBRETRO_SUFFIX=_psp1 -DBUILD_SHARED_LIBS=OFF -DCMAKE_IGNORE_PATH=/usr/include -DCFLAGS="-G0 -DPSP -DUSE_RGB565" -DCXXFLAGS="-G0 -DPSP -DUSE_RGB565" -DCMAKE_CROSSCOMPILING=1 -DCMAKE_SYSTEM_NAME=1 -DCMAKE_C_COMPILER=psp-gcc -DCMAKE_CXX_COMPILER=psp-g++ -DCMAKE_AR=psp-ar -DPSP=ON -DPSP1=ON -CMAKE_EXE_LINKER_FLAGS_INIT="-lstdc++ -lpspgu -lpspgum -lm -lpspaudio -lpspfpu -lpsppower -lpsprtc -lpthread-psp"
     - cmake --build $BUILD_DIR --target ${CORENAME}_libretro --config Release -- -j $NUMPROC
     - mv $BUILD_DIR/$EXTRA_PATH/${CORENAME}_libretro_psp1.a retroarch-precompiled/libretro_psp1.a
     - cd retroarch-precompiled/
