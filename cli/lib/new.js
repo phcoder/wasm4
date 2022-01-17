@@ -1,6 +1,7 @@
 const copy = require("recursive-copy");
 const path = require("path");
-const fs = require("fs");
+const fs = require("fs/promises");
+const Mustache = require('mustache');
 
 const HELP = {
     assemblyscript: {
@@ -66,6 +67,33 @@ const ALIASES = {
     as: "assemblyscript",
 };
 
+/**
+ * @param {string} destDir
+ * @param {string} lang
+ * @returns {ReturnType<import('fs/promises').writeFile>}
+ */
+ async function addReadme(destDir, lang) {
+    if(!Object.prototype.hasOwnProperty.call(HELP, lang)) {
+        throw new Error(`w4 run: invalid code lang received: ${lang}`);
+    }
+
+    if(typeof destDir !== 'string' || !destDir) {
+        throw new Error(`w4 run invalid destination directory received`);
+    }
+
+    const readmeTemplate = await fs.readFile(
+        path.resolve(__dirname, '../assets/templates/readme-template.md'), { encoding: 'utf-8' }
+    );
+
+    const readmeRender =  Mustache.render(readmeTemplate, { 
+        name: path.basename(path.resolve(destDir)),
+        lang: HELP[lang],
+        'code-lang': lang,
+    });
+
+    return fs.writeFile(path.join(destDir, 'README.md'), readmeRender, { encoding: 'utf-8', flag: 'w+' })
+}
+
 async function run (destDir, opts) {
     let lang = opts.lang;
     if (ALIASES[lang]) {
@@ -98,10 +126,11 @@ async function run (destDir, opts) {
     const srcDir = path.resolve(`${__dirname}/../assets/templates/${lang == "cpp" ? "c" : lang}`);
     await copy(srcDir, destDir, { dot: true });
     await init(destDir, lang);
+    await addReadme(destDir, lang);
 
     // The C++ is exactly the same as the C template, just with .cpp instead of .c
     if (lang == "cpp") {
-        fs.renameSync(destDir+"/src/main.c", destDir+"/src/main.cpp");
+        await fs.rename(destDir+"/src/main.c", destDir+"/src/main.cpp");
     }
 
     const help = HELP[lang];
@@ -113,7 +142,7 @@ async function run (destDir, opts) {
         console.log(`    ${help.setup}`);
         console.log();
     }
-    console.log("Build it by running:");
+    console.log("Build the cart by running:");
     console.log();
     console.log(`    ${help.build}`);
     console.log();
@@ -128,9 +157,9 @@ async function init (destDir, lang) {
         case "assemblyscript":
             const projectName = path.basename(path.resolve(destDir));
             const file = destDir + "/package.json";
-            const json = JSON.parse(fs.readFileSync(file));
+            const json = JSON.parse(await fs.readFile(file, { encoding: 'utf-8' }));
             json.name = projectName;
-            fs.writeFileSync(file, JSON.stringify(json, null, '  '));
+            await fs.writeFile(file, JSON.stringify(json, null, '  '), { encoding: 'utf-8' });
             break;
     }
 }
